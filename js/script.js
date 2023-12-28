@@ -26,9 +26,6 @@ const comida = {
 }
 
 
-
-
-
 let direcao, loopId
 
 const desenharComida = () => {
@@ -98,6 +95,22 @@ const desenharGrid = () => {
     }
 }
 
+const comeuComida = () => {
+    const cabeca = cobra[cobra.length -1]
+
+    if ( cabeca.x == comida.x && cabeca.y == comida.y) {
+        cobra.push(cabeca)
+    }
+}
+
+const comeuComida = () => {
+    const cabeca = cobra[cobra.length -1]
+
+    if ( cabeca.x == comida.x && cabeca.y == comida.y) {
+        cobra.push(cabeca)
+    }
+}
+
 const gameLoop = () => {
     clearInterval(loopId)
 
@@ -106,6 +119,8 @@ const gameLoop = () => {
     desenharComida()
     moveCobra()
     desenharCobra()
+    comeuComida()
+  
 
     loopId = setTimeout(() => {
         gameLoop() 
