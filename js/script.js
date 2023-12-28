@@ -4,13 +4,30 @@ const elementoJogo = canvas.getContext('2d')  //ctx = contexto, para facilitar a
 
 const tamanhoElementoJogo = 30
 
-
-const cobra = [{ x: 270, y: 240 }]
-
+const posicaoInicialCobra = { x: 270, y: 240 }
+const cobra = [posicaoInicialCobra]
+const comida = {
+    x: 90,
+    y: 90,
+    color: 'red'
+}
 let direcao, loopId
+
+const desenharComida = () => {
+    const { x, y, color } = comida
+    elementoJogo.fillStyle = color
+    elementoJogo.shadowColor = color
+    elementoJogo.shadowBlur = 6
+
+    elementoJogo.fillRect(x, y, tamanhoElementoJogo, tamanhoElementoJogo)
+    elementoJogo.shadowBlur = 0
+
+}
+
 
 const desenharCobra = () => {
     elementoJogo.fillStyle = '#ddd'
+    
     cobra.forEach((posicao, cabeca) => {
         if (cabeca == cobra.length - 1) {
             elementoJogo.fillStyle = 'white'
@@ -23,15 +40,13 @@ const desenharCobra = () => {
 const moveCobra = () => {
     if (!direcao) return
 
-    const cabeca = cobra.at(-1)
-
-
+    const cabeca = cobra[cobra.length -1]
 
     if (direcao == 'direita') {
         cobra.push({ x: cabeca.x + tamanhoElementoJogo, y: cabeca.y })
     }
 
-    if (direcao == 'esqueda') {
+    if (direcao == 'esquerda') {
         cobra.push({ x: cabeca.x - tamanhoElementoJogo, y: cabeca.y })
     }
 
@@ -66,36 +81,38 @@ const desenharGrid = () => {
     }
 }
 
-desenharGrid()
+
 
 const gameLoop = () => {
     clearInterval(loopId)
 
     elementoJogo.clearRect(0, 0, 600, 600)
+    desenharGrid()
+    desenharComida()
     moveCobra()
     desenharCobra()
 
-    loopId = setInterval(() => {
-        gameLoop()
+    loopId = setTimeout(() => {
+        gameLoop() 
     }, 300)
 }
 
-//gameLoop()
+gameLoop()
 
 document.addEventListener('keydown', ({ key }) => {
-    if (key == 'ArrowRight' && direcao !== 'esquerda') {
+    if (key == 'ArrowRight' && direcao != 'esquerda') {
         direcao = 'direita'
     }
 
-    if (key == 'ArrowLeft' && direcao !== 'direita') {
+    if (key == 'ArrowLeft' && direcao != 'direita' ) {
         direcao = 'esquerda'
     }
 
-    if (key == 'ArrowDown' && direcao !== 'cima') {
+    if (key == 'ArrowDown' && direcao != 'cima' ) {
         direcao = 'baixo'
     }
 
-    if (key == 'ArrowUp' && direcao !== 'baixo') {
+    if (key == 'ArrowUp' && direcao != 'baixo') {
         direcao = 'cima'
     }
 })
