@@ -1,4 +1,7 @@
 
-h1 {
-    color: blueviolet;
-}
+
+/* reset */
+@import "./reset.css";
+
+/* globais */
+@import "./globais.css";
