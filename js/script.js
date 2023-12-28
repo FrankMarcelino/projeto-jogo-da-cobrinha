@@ -4,13 +4,31 @@ const elementoJogo = canvas.getContext('2d')  //ctx = contexto, para facilitar a
 
 const tamanhoElementoJogo = 30
 
+
+
 const posicaoInicialCobra = { x: 270, y: 240 }
 const cobra = [posicaoInicialCobra]
+
+
+const randomNumero = (max, min) => {
+    return Math.round(Math.random() * (max - min) + min)
+}
+
+const randomPosicao = () => {
+    const numero = randomNumero(0, canvas.width - tamanhoElementoJogo)
+    return Math.round(numero / 30) * 30
+}
+
 const comida = {
-    x: 90,
-    y: 90,
+    x: randomPosicao(),
+    y: randomPosicao(),
     color: 'red'
 }
+
+
+
+
+
 let direcao, loopId
 
 const desenharComida = () => {
@@ -23,7 +41,6 @@ const desenharComida = () => {
     elementoJogo.shadowBlur = 0
 
 }
-
 
 const desenharCobra = () => {
     elementoJogo.fillStyle = '#ddd'
@@ -80,8 +97,6 @@ const desenharGrid = () => {
         elementoJogo.stroke()
     }
 }
-
-
 
 const gameLoop = () => {
     clearInterval(loopId)
