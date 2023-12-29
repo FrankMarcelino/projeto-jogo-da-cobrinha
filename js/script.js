@@ -100,16 +100,14 @@ const comeuComida = () => {
 
     if ( cabeca.x == comida.x && cabeca.y == comida.y) {
         cobra.push(cabeca)
+
+        comida.x = randomPosicao(),
+        comida.y = randomPosicao(),
+        comida.color = 'red'
     }
 }
 
-const comeuComida = () => {
-    const cabeca = cobra[cobra.length -1]
 
-    if ( cabeca.x == comida.x && cabeca.y == comida.y) {
-        cobra.push(cabeca)
-    }
-}
 
 const gameLoop = () => {
     clearInterval(loopId)
