@@ -1,6 +1,11 @@
 
 const canvas = document.querySelector('canvas')
 const elementoJogo = canvas.getContext('2d')  //ctx = contexto, para facilitar a leitura troquei o ctx por elementoJogo
+const score = document.querySelector('.score--value')
+const finalScore = document.querySelector('.final-score > span')
+const menu = document.querySelector('.men-screen')
+const buttonPlay = document.querySelector('.btn-play')
+
 
 const tamanhoElementoJogo = 30
 
@@ -116,7 +121,7 @@ const comeuComida = () => {
 
 const bateu = () => {
     const cabeca = cobra[cobra.length -1]
-    const paredes = canvas.width - elementoJogo
+    const paredes = canvas.width - tamanhoElementoJogo
     const corpoCobra = cobra.length -2
     
     const bateuParede = 
@@ -155,7 +160,7 @@ const gameLoop = () => {
     }, 300)
 }
 
-// gameLoop()
+gameLoop()
 
 document.addEventListener('keydown', ({ key }) => {
     if (key == 'ArrowRight' && direcao != 'esquerda') {

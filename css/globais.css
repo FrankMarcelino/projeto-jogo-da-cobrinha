@@ -34,7 +34,7 @@ canvas {
 
 .menu-screen {
     position: absolute;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
 }
