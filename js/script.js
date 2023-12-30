@@ -1,19 +1,27 @@
 
 const canvas = document.querySelector('canvas')
 const elementoJogo = canvas.getContext('2d')  //ctx = contexto, para facilitar a leitura troquei o ctx por elementoJogo
-const score = document.querySelector('.score--value')
-const finalScore = document.querySelector('.final-score > span')
-const menu = document.querySelector('.men-screen')
+const pontos = document.querySelector('.score--value')
+const totalPontos = document.querySelector('.final-score > span')
+const menu = document.querySelector('.menu-screen')
 const buttonPlay = document.querySelector('.btn-play')
 
 
 const tamanhoElementoJogo = 30
 
 
+let cobra = [
+    { x: 270, y: 240 },
+    { x: 300, y: 240 },
+    { x: 330, y: 240 },
+]
 
-const posicaoInicialCobra = { x: 270, y: 240 }
-const cobra = [posicaoInicialCobra]
 
+
+
+const somaPontos = () => {
+    pontos. innerText = +pontos.innerText + 1
+}
 
 const randomNumero = (max, min) => {
     return Math.round(Math.random() * (max - min) + min)
@@ -46,7 +54,7 @@ const desenharComida = () => {
 
 const desenharCobra = () => {
     elementoJogo.fillStyle = '#ddd'
-    
+
     cobra.forEach((posicao, cabeca) => {
         if (cabeca == cobra.length - 1) {
             elementoJogo.fillStyle = 'white'
@@ -59,7 +67,7 @@ const desenharCobra = () => {
 const moveCobra = () => {
     if (!direcao) return
 
-    const cabeca = cobra[cobra.length -1]
+    const cabeca = cobra[cobra.length - 1]
 
     if (direcao == 'direita') {
         cobra.push({ x: cabeca.x + tamanhoElementoJogo, y: cabeca.y })
@@ -101,45 +109,52 @@ const desenharGrid = () => {
 }
 
 const comeuComida = () => {
-    const cabeca = cobra[cobra.length -1]
+    const cabeca = cobra[cobra.length - 1]
 
-    if ( cabeca.x == comida.x && cabeca.y == comida.y) {
+    if (cabeca.x == comida.x && cabeca.y == comida.y) {
         cobra.push(cabeca)
 
-       let x = randomPosicao()
-       let y = randomPosicao()
-        
-        while (cobra.find((posicao) => posicao.x == x && posicao.y  == y)) {
+        let x = randomPosicao()
+        let y = randomPosicao()
+
+        while (cobra.find((posicao) => posicao.x == x && posicao.y == y)) {
             x = randomPosicao()
             y = randomPosicao()
         }
 
         comida.x = x
-        comida.y = y 
+        comida.y = y
+
+        somaPontos()
     }
 }
 
 const bateu = () => {
-    const cabeca = cobra[cobra.length -1]
+    const cabeca = cobra[cobra.length - 1]
     const paredes = canvas.width - tamanhoElementoJogo
-    const corpoCobra = cobra.length -2
-    
-    const bateuParede = 
+    const corpoCobra = cobra.length - 2
+
+    const bateuParede =
         cabeca.x < 0 || cabeca.x > paredes || cabeca.y < 0 || cabeca.y > paredes
 
     const bateuNela = cobra.find((posicao, index) => {
-        return index < corpoCobra && posicao.x == cabeca.x && posicao.y == cabeca.y 
+        return index < corpoCobra && posicao.x == cabeca.x && posicao.y == cabeca.y
     })
 
-    if (bateuParede||bateuNela) {
+    if (bateuParede || bateuNela) {
         gameOver()
     }
 
 
-}   
+}
 
-const gameOVer = () => {
+const gameOver = () => {
     direcao = undefined
+
+    
+    menu.style.display = 'flex'
+    canvas.style.filter = 'blur(2px)'
+    totalPontos.innerText = pontos.innerText
 }
 
 
@@ -153,10 +168,10 @@ const gameLoop = () => {
     desenharCobra()
     comeuComida()
     bateu()
-  
+
 
     loopId = setTimeout(() => {
-        gameLoop() 
+        gameLoop()
     }, 300)
 }
 
@@ -167,15 +182,29 @@ document.addEventListener('keydown', ({ key }) => {
         direcao = 'direita'
     }
 
-    if (key == 'ArrowLeft' && direcao != 'direita' ) {
+    if (key == 'ArrowLeft' && direcao != 'direita') {
         direcao = 'esquerda'
     }
 
-    if (key == 'ArrowDown' && direcao != 'cima' ) {
+    if (key == 'ArrowDown' && direcao != 'cima') {
         direcao = 'baixo'
     }
 
     if (key == 'ArrowUp' && direcao != 'baixo') {
         direcao = 'cima'
     }
+})
+
+
+buttonPlay.addEventListener('click', () => {
+ 
+    pontos.innerText = '00'
+    menu.style.display = 'none'
+    canvas.style.filter = 'none'
+
+    cobra =  [
+        { x: 270, y: 240 },
+        { x: 300, y: 240 },
+        { x: 330, y: 240 },
+    ]    
 })
