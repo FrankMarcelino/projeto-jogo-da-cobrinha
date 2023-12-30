@@ -101,11 +101,38 @@ const comeuComida = () => {
     if ( cabeca.x == comida.x && cabeca.y == comida.y) {
         cobra.push(cabeca)
 
-        comida.x = randomPosicao(),
-        comida.y = randomPosicao(),
-        comida.color = 'red'
+       let x = randomPosicao()
+       let y = randomPosicao()
+        
+        while (cobra.find((posicao) => posicao.x == x && posicao.y  == y)) {
+            x = randomPosicao()
+            y = randomPosicao()
+        }
+
+        comida.x = x
+        comida.y = y 
     }
 }
+
+const bateu = () => {
+    const cabeca = cobra[cobra.length -1]
+    const paredes = canvas.width - elementoJogo
+    const corpoCobra = cobra.length -2
+    
+    const bateuParede = 
+        cabeca.x < 0 || cabeca.x > paredes || cabeca.y < 0 || cabeca.y > paredes
+
+    const bateuNela = cobra.find((posicao, index) => {
+        return index < corpoCobra && posicao.x == cabeca.x && posicao.y == cabeca.y 
+    })
+
+    if (bateuParede||bateuNela) {
+        gameOver()
+    }
+
+
+}   
+
 
 
 
@@ -118,6 +145,7 @@ const gameLoop = () => {
     moveCobra()
     desenharCobra()
     comeuComida()
+    bateu()
   
 
     loopId = setTimeout(() => {
@@ -125,7 +153,7 @@ const gameLoop = () => {
     }, 300)
 }
 
-gameLoop()
+// gameLoop()
 
 document.addEventListener('keydown', ({ key }) => {
     if (key == 'ArrowRight' && direcao != 'esquerda') {
