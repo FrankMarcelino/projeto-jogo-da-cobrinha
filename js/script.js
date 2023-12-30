@@ -133,7 +133,9 @@ const bateu = () => {
 
 }   
 
-
+const gameOVer = () => {
+    direcao = undefined
+}
 
 
 const gameLoop = () => {
